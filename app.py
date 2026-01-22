@@ -7,7 +7,9 @@ from flask_login import (
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "deanna-ticket-app-dev-secret-please-change"
+import os
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-placeholder")
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
