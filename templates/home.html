@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% set title = "TicketDesk • Tickets" %}
+
+{% block content %}
+  <div class="p-4 p-md-5 rounded-4 hero mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+      <div>
+        <h1 class="display-6 fw-bold mb-1">Operations TicketDesk</h1>
+        <p class="text-secondary mb-0">
+          A lightweight internal queue — Flask + SQLite + Auth.
+        </p>
+      </div>
+      <div class="d-flex gap-2">
+        <span class="badge bg-info-subtle text-info-emphasis px-3 py-2 rounded-pill">
+          <i class="bi bi-shield-lock me-1"></i> Auth enabled
+        </span>
+        <span class="badge bg-secondary-subtle text-secondary-emphasis px-3 py-2 rounded-pill">
+          <i class="bi bi-database me-1"></i> SQLite
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+          <h2 class="h5 fw-semibold mb-3"><i class="bi bi-plus-circle me-2"></i>New ticket</h2>
+
+          <form method="post" action="/tickets" class="vstack gap-3">
+            <div>
+              <label class="form-label text-secondary">Title</label>
+              <input class="form-control form-control-lg" name="title" placeholder="What needs attention?" required>
+            </div>
+
+            <div>
+              <label class="form-label text-secondary">Severity</label>
+              <select class="form-select" name="severity">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Critical</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary btn-lg">
+              <i class="bi bi-send me-2"></i>Create ticket
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="h5 fw-semibold mb-0"><i class="bi bi-inboxes me-2"></i>Open tickets</h2>
+            <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill px-3 py-2">
+              {{ tickets|length }} total
+            </span>
+          </div>
+
+          {% if tickets %}
+            <div class="list-group list-group-flush">
+              {% for t in tickets %}
+                <div class="list-group-item bg-transparent px-0">
+                  <div class="d-flex gap-3 align-items-start justify-content-between">
+                    <div class="minw-0">
+                      <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="text-secondary small">#{{ t.id }}</span>
+                        <span class="fw-semibold text-truncate">{{ t.title }}</span>
+
+                        {% set sev = t.severity|lower %}
+                        {% if sev == "critical" %}
+                          <span class="badge bg-danger-subtle text-danger-emphasis">Critical</span>
+                        {% elif sev == "high" %}
+                          <span class="badge bg-warning-subtle text-warning-emphasis">High</span>
+                        {% elif sev == "medium" %}
+                          <span class="badge bg-info-subtle text-info-emphasis">Medium</span>
+                        {% else %}
+                          <span class="badge bg-success-subtle text-success-emphasis">Low</span>
+                        {% endif %}
+                      </div>
+                      <div class="text-secondary small mt-1">
+                        <i class="bi bi-clock me-1"></i>Stored in SQLite • Edit/Delete supported
+                      </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                      <a class="btn btn-outline-light btn-sm"
+                         href="{{ url_for('edit_ticket', ticket_id=t.id) }}">
+                        <i class="bi bi-pencil-square"></i>
+                      </a>
+
+                      <form method="post" action="/tickets/{{ t.id }}/delete" class="delete-form">
+                        <button type="button" class="btn btn-outline-danger btn-sm delete-btn">
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="text-center py-5">
+              <div class="display-6 mb-2">🧾</div>
+              <p class="text-secondary mb-0">No tickets yet. Create your first one on the left.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,20 @@
+.hero{
+  background: radial-gradient(1000px 500px at 20% 0%, rgba(0, 170, 255, .25), transparent 60%),
+              radial-gradient(900px 500px at 80% 20%, rgba(255, 0, 200, .18), transparent 55%),
+              rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(8px);
+}
+
+.auth-wrap{
+  min-height: calc(100vh - 180px);
+  display: grid;
+  place-items: center;
+}
+
+.auth-card{
+  width: min(560px, 100%);
+}
+
+.minw-0 { min-width: 0; }
+.text-truncate { max-width: 520px; }

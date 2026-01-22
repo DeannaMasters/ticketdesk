@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Edit Ticket</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Ticket #{{ ticket.id }}</h1>
+
+    <form method="post" action="/tickets/{{ ticket.id }}/edit" class="card">
+      <label>Title <input name="title" value="{{ ticket.title }}" required></label>
+
+      <label>
+        Severity
+        <select name="severity">
+          {% for s in ["Low","Medium","High","Critical"] %}
+            <option value="{{ s }}" {% if ticket.severity == s %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <button type="submit">Save</button>
+      <a class="btn" href="{{ url_for('home') }}">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>

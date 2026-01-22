@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% set title = "TicketDesk • Register" %}
+
+{% block content %}
+  <div class="auth-wrap">
+    <div class="card shadow-lg border-0 rounded-4 auth-card">
+      <div class="card-body p-4 p-md-5">
+        <h1 class="h3 fw-bold mb-1">Create account</h1>
+        <p class="text-secondary mb-4">Register to start creating tickets.</p>
+
+        {% if error %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" action="/register" class="vstack gap-3">
+          <div>
+            <label class="form-label text-secondary">Email</label>
+            <input class="form-control form-control-lg" name="email" placeholder="you@example.com" autocomplete="email">
+          </div>
+
+          <div>
+            <label class="form-label text-secondary">Password</label>
+            <input class="form-control form-control-lg" name="password" type="password"
+                   placeholder="Password" autocomplete="new-password">
+          </div>
+
+          <button class="btn btn-primary btn-lg">
+            <i class="bi bi-person-plus me-2"></i>Create account
+          </button>
+        </form>
+
+        <p class="text-secondary mt-4 mb-0">
+          Already have an account? <a class="link" href="/login">Login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
